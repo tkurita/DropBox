@@ -13,7 +13,7 @@
 #endif	
 	self = [super initWithFrame:rect];
     if(self) {
-        NSArray* array = [NSArray arrayWithObject:NSFilenamesPboardType];
+        NSArray* array = @[NSFilenamesPboardType];
         [self registerForDraggedTypes:array];
     }
     return self;
@@ -24,13 +24,13 @@
 #if useLog
 	NSLog(@"awakeFromNib in DropBox");
 #endif
-	NSArray* array = [NSArray arrayWithObject:NSFilenamesPboardType];
+	NSArray* array = @[NSFilenamesPboardType];
 	[self registerForDraggedTypes:array];
 }
 
 - (BOOL)shouldAcceptFile:(NSString *)filename
 {
-	filename = [[filename infoResolvingAliasFile] objectForKey:@"ResolvedPath"];
+	filename = [filename infoResolvingAliasFile][@"ResolvedPath"];
     NSError *err = nil;
     NSMutableDictionary *file_info = [[[NSFileManager defaultManager]
                                        attributesOfItemAtPath:filename error:&err]
@@ -43,15 +43,15 @@
 	while (a_dict = [info_enumerator nextObject] ) {
 		BOOL match_to_info = YES;
 		//FileType
-		NSString *file_type = [a_dict objectForKey:@"FileType"];
+		NSString *file_type = a_dict[@"FileType"];
 		if ( (file_type) &&
-				(! [file_type isEqualToString:[file_info objectForKey:NSFileType]]) ) {
+				(! [file_type isEqualToString:file_info[NSFileType]]) ) {
 			match_to_info = NO;
 		}
 		
 		//isPackage
 		if (match_to_info) {
-			BOOL is_package = [[a_dict objectForKey:@"isPackage"] boolValue];
+			BOOL is_package = [a_dict[@"isPackage"] boolValue];
 			if (is_package) {
 				if (![filename isPackage]) {
 					match_to_info = NO;
@@ -61,14 +61,14 @@
 		
 		// CreatorCode
 		if (match_to_info) {
-			NSString *target_creator = [a_dict objectForKey:@"CreatorCode"];
+			NSString *target_creator = a_dict[@"CreatorCode"];
 			if (target_creator) {
 				NSString *creator;
-				if ([[file_info objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
+				if ([file_info[NSFileType] isEqualToString:NSFileTypeDirectory]) {
 					NSDictionary *bundleinfo = [[NSBundle bundleWithPath:filename] infoDictionary];
-					creator = [bundleinfo objectForKey:@"CFBundleSignature"];
+					creator = bundleinfo[@"CFBundleSignature"];
 				} else {
-					creator = OSTypeToNSString([file_info objectForKey:NSFileHFSCreatorCode]);
+					creator = OSTypeToNSString(file_info[NSFileHFSCreatorCode]);
 				}
 				if (![target_creator isEqualToString:creator]) {
 					match_to_info = NO;
@@ -78,7 +78,7 @@
 		
 		// PathExtension
 		if (match_to_info) {
-			NSString *an_extension = [a_dict objectForKey:@"PathExtension"];
+			NSString *an_extension = a_dict[@"PathExtension"];
 			if ( (an_extension) &&
 					(! [an_extension isEqualToString:[filename pathExtension]]) ) {
 				match_to_info = NO;
