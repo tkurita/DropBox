@@ -31,8 +31,12 @@
 - (BOOL)shouldAcceptFile:(NSString *)filename
 {
 	filename = [[filename infoResolvingAliasFile] objectForKey:@"ResolvedPath"];
-	NSMutableDictionary *file_info = [[[NSFileManager defaultManager]
-						fileAttributesAtPath:filename traverseLink:NO] mutableCopy];
+    NSError *err = nil;
+    NSMutableDictionary *file_info = [[[NSFileManager defaultManager]
+                                       attributesOfItemAtPath:filename error:&err]
+                                      mutableCopy];
+    if (err) NSLog(@"error in shouldAcceptFile %@", err);
+    
 	NSEnumerator *info_enumerator = [acceptFileInfoArray objectEnumerator];
 	NSDictionary *a_dict;
 	BOOL result = NO;
