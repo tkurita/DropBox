@@ -134,8 +134,6 @@
 #pragma mark Accessors
 - (void)setAcceptFileInfo:(NSArray *)fileInfoArray;
 {
-	[fileInfoArray retain];
-	[acceptFileInfoArray release];
 	acceptFileInfoArray = fileInfoArray;
 }
 

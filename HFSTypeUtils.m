@@ -2,12 +2,12 @@
 
 NSString *OSTypeToNSString(NSNumber *number)
 {
-	return (NSString *)UTCreateStringForOSType([number longValue]);
+	return (NSString *)CFBridgingRelease(UTCreateStringForOSType([number longValue]));
 }
 
 NSNumber *StringToOSType(NSString *string)
 {
-	return [NSNumber numberWithUnsignedLong:UTGetOSTypeFromString((CFStringRef) string)];
+	return [NSNumber numberWithUnsignedLong:UTGetOSTypeFromString((__bridge CFStringRef) string)];
 }
 
 @implementation HFSTypeUtils
