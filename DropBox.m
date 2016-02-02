@@ -37,10 +37,8 @@
                                       mutableCopy];
     if (err) NSLog(@"error in shouldAcceptFile %@", err);
     
-	NSEnumerator *info_enumerator = [acceptFileInfoArray objectEnumerator];
-	NSDictionary *a_dict;
 	BOOL result = NO;
-	while (a_dict = [info_enumerator nextObject] ) {
+    for (NSDictionary *a_dict in _acceptFileInfo) {
 		BOOL match_to_info = YES;
 		//FileType
 		NSString *file_type = a_dict[@"FileType"];
@@ -129,12 +127,6 @@
     }
 
     return didPerformDragOperation;
-}
-
-#pragma mark Accessors
-- (void)setAcceptFileInfo:(NSArray *)fileInfoArray;
-{
-	acceptFileInfoArray = fileInfoArray;
 }
 
 @end

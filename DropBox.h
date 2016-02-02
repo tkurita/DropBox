@@ -9,8 +9,6 @@
     IBOutlet id <DropBoxDragAndDrop> delegate;
 	NSArray *acceptFileTypes;
 	NSArray *acceptPathExtensions;
-	NSArray *acceptFileInfoArray;
 }
-
-- (void)setAcceptFileInfo:(NSArray *)fileInfoArray;
+@property (retain) NSArray *acceptFileInfo;
 @end
