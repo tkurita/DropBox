@@ -10,5 +10,5 @@
 	NSArray *acceptFileTypes;
 	NSArray *acceptPathExtensions;
 }
-@property (retain) NSArray *acceptFileInfo;
+@property (strong) NSArray *acceptFileInfo;
 @end
