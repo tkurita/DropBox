@@ -2,7 +2,7 @@
 
 NSString *OSTypeToNSString(NSNumber *number)
 {
-	return (NSString *)CFBridgingRelease(UTCreateStringForOSType([number longValue]));
+	return (NSString *)CFBridgingRelease(UTCreateStringForOSType([number unsignedIntValue]));
 }
 
 NSNumber *StringToOSType(NSString *string)
